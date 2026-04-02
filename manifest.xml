@@ -68,7 +68,6 @@
                   </Icon>
                   <Action xsi:type="ShowTaskpane">
                     <SourceLocation resid="Taskpane.Url"/>
-                    <TaskpaneId>ButtonId1</TaskpaneId>
                   </Action>
                 </Control>
               </Group>
