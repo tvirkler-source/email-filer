@@ -14,7 +14,7 @@
   <Description DefaultValue="Save emails to SharePoint project folders"/>
   <IconUrl DefaultValue="https://email-filer.pages.dev/assets/icon-64.png"/>
   <HighResolutionIconUrl DefaultValue="https://email-filer.pages.dev/assets/icon-128.png"/>
-  <SupportUrl DefaultValue="https://emailfiler.tvirkler.workers.dev/"/>
+  <SupportUrl DefaultValue="https://email-filer.pages.dev/"/>
 
   <Hosts>
     <Host Name="Mailbox"/>
