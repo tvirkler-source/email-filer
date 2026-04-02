@@ -2,7 +2,7 @@
 // The add-in never calls Graph directly; it passes the Office identity token to the backend.
 
 const Auth = (() => {
-  const BACKEND_URL = 'https://emailfiler.tvirkler.workers.dev/'; // set at deploy time
+  const BACKEND_URL = 'https://email-filer.pages.dev/'; // set at deploy time
 
   let _accessToken = null;
   let _tokenExpiry = 0;
