@@ -1,1 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Save to Project</title>
+  <link rel="stylesheet" href="styles/taskpane.css" />
 
+  <!-- Office.js — always load from CDN, do not bundle -->
+  <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+  <!-- MSAL for auth -->
+  <script src="https://alcdn.msauth.net/browser/2.38.0/js/msal-browser.min.js"></script>
+</head>
+<body>
+  <div id="app">
+
+    <!-- Header -->
+    <div class="header">
+      <svg class="header-icon" viewBox="0 0 20 20" fill="currentColor">
+        <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"/>
+      </svg>
+      <span>Save to Project</span>
+    </div>
+
+    <!-- Auth State -->
+    <div id="auth-section">
+      <div id="auth-loading" class="state-msg">Signing in…</div>
+      <div id="auth-error" class="state-msg error" hidden>
+        <p>Sign-in failed.</p>
+        <button id="retry-auth-btn" class="btn btn-secondary">Retry</button>
+      </div>
+    </div>
+
+    <!-- Main Content (shown after auth) -->
+    <div id="main-content" hidden>
+
+      <!-- Suggestions -->
+      <div id="suggestions-section">
+        <div class="section-label">Suggested folders</div>
+        <div id="suggestions-loading" class="subtle">Analysing email…</div>
+        <div id="suggestions-list"></div>
+      </div>
+
+      <!-- Divider -->
+      <div class="divider"></div>
+
+      <!-- Pinned / Recent -->
+      <div id="pinned-section">
+        <div class="section-label">
+          Pinned &amp; Recent
+          <button id="manage-pins-btn" class="icon-btn" title="Manage pins">⋯</button>
+        </div>
+        <div id="pinned-list"></div>
+      </div>
+
+      <!-- Divider -->
+      <div class="divider"></div>
+
+      <!-- Search -->
+      <div class="section-label">Search all folders</div>
+      <div class="search-wrap">
+        <svg class="search-icon" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"/>
+        </svg>
+        <input type="text" id="folder-search"
+               placeholder="Type to search…"
+               autocomplete="off"
+               spellcheck="false" />
+        <div id="search-spinner" class="spinner" hidden></div>
+      </div>
+      <div id="search-results"></div>
+
+      <!-- Status bar -->
+      <div id="status-bar" hidden></div>
+
+    </div><!-- /main-content -->
+
+    <!-- Saving overlay -->
+    <div id="saving-overlay" hidden>
+      <div class="saving-inner">
+        <div class="spinner large"></div>
+        <div id="saving-label">Saving…</div>
+      </div>
+    </div>
+
+  </div><!-- /app -->
+
+  <script src="src/auth.js"></script>
+  <script src="src/api.js"></script>
+  <script src="src/folderCache.js"></script>
+  <script src="src/taskpane.js"></script>
+</body>
+</html>
