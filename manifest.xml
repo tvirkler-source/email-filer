@@ -95,5 +95,15 @@
         <bt:String id="SaveBtn.Tooltip" DefaultValue="File this email into a SharePoint project folder"/>
       </bt:LongStrings>
     </Resources>
+    <WebApplicationInfo>
+      <Id>YOUR-CLIENT-ID</Id>
+      <Resource>api://email-filer.pages.dev/3eb85312-1c24-4c02-aca9-14cd706709c2</Resource>
+      <Scopes>
+        <Scope>openid</Scope>
+        <Scope>profile</Scope>
+        <Scope>Files.ReadWrite.All</Scope>
+        <Scope>Sites.Read.All</Scope>
+      </Scopes>
+    </WebApplicationInfo>
   </VersionOverrides>
 </OfficeApp>
