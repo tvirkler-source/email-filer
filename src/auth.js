@@ -1,57 +1,69 @@
-// auth.js — MSAL + Office SSO with On-Behalf-Of handoff to backend
-// The add-in never calls Graph directly; it passes the Office identity token to the backend.
-
 const Auth = (() => {
-  const BACKEND_URL = 'https://emailfiler.tvirkler.workers.dev/'; // set at deploy time
+  const BACKEND_URL = 'https://YOUR-WORKER-URL';
+  const CLIENT_ID   = '3eb85312-1c24-4c02-aca9-14cd706709c2';
+  const TENANT_ID   = 'YOUR-TENANT-ID';
 
-  let _accessToken = null;
-  let _tokenExpiry = 0;
+  const msalConfig = {
+    auth: {
+      clientId: CLIENT_ID,
+      authority: `https://login.microsoftonline.com/${TENANT_ID}`,
+      redirectUri: 'https://email-filer.pages.dev/taskpane.html',
+    },
+    cache: { cacheLocation: 'sessionStorage' }
+  };
 
-  /**
-   * Get a valid backend access token.
-   * Uses Office SSO (getAccessToken) which returns a token scoped to the add-in.
-   * The backend validates and exchanges this via OBO for a Graph token.
-   */
+  const scopes = [
+    'https://graph.microsoft.com/Sites.Read.All',
+    'https://graph.microsoft.com/Files.ReadWrite.All',
+    'openid', 'profile'
+  ];
+
+  let _msalInstance = null;
+  let _account = null;
+
+  function getInstance() {
+    if (!_msalInstance) {
+      _msalInstance = new msal.PublicClientApplication(msalConfig);
+    }
+    return _msalInstance;
+  }
+
   async function getToken() {
-    const now = Date.now();
+    const app = getInstance();
+    await app.initialize();
 
-    // Return cached token if still valid (with 60s buffer)
-    if (_accessToken && _tokenExpiry - 60_000 > now) {
-      return _accessToken;
+    // Handle redirect response first
+    await app.handleRedirectPromise();
+
+    const accounts = app.getAllAccounts();
+    if (accounts.length > 0) {
+      _account = accounts[0];
     }
 
-    try {
-      // Office SSO — this is a bootstrap token, NOT a Graph token
-      const bootstrapToken = await Office.auth.getAccessToken({
-        allowSignInPrompt: true,
-        allowConsentPrompt: true,
-        forMSGraphAccess: true,
-      });
-
-      // Exchange with backend — backend does the OBO flow
-      const resp = await fetch(`${BACKEND_URL}/api/auth/token`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ bootstrapToken }),
-      });
-
-      if (!resp.ok) throw new Error(`Token exchange failed: ${resp.status}`);
-
-      const data = await resp.json();
-      _accessToken = data.accessToken;
-      _tokenExpiry = now + data.expiresInMs;
-
-      return _accessToken;
-    } catch (err) {
-      console.error('Auth error:', err);
-      _accessToken = null;
-      throw err;
+    // Try silent first
+    if (_account) {
+      try {
+        const result = await app.acquireTokenSilent({
+          scopes, account: _account
+        });
+        return result.accessToken;
+      } catch (e) {
+        // Silent failed, fall through to popup
+      }
     }
+
+    // Popup
+    const result = await app.acquireTokenPopup({ scopes });
+    _account = result.account;
+    return result.accessToken;
   }
 
   function clearToken() {
-    _accessToken = null;
-    _tokenExpiry = 0;
+    _account = null;
+    if (_msalInstance) {
+      const accounts = _msalInstance.getAllAccounts();
+      accounts.forEach(a => _msalInstance.removeAccount(a));
+    }
   }
 
   return { getToken, clearToken, BACKEND_URL };
