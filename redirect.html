@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8"/>
+  <script src="https://alcdn.msauth.net/browser/2.38.0/js/msal-browser.min.js"></script>
+  <script>
+    const msalInstance = new msal.PublicClientApplication({
+      auth: {
+        clientId: '3eb85312-1c24-4c02-aca9-14cd706709c2',
+        authority: 'https://login.microsoftonline.com/32655b6b-2430-4872-bb66-28dbd84ee0c4',
+        redirectUri: 'https://email-filer.pages.dev/redirect.html',
+      }
+    });
+    msalInstance.initialize().then(() => {
+      msalInstance.handleRedirectPromise();
+    });
+  </script>
+</head>
+<body></body>
+</html>
