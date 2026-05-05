@@ -1,13 +1,13 @@
 const Auth = (() => {
-  const BACKEND_URL = 'https://YOUR-WORKER-URL';
+  const BACKEND_URL = 'https://emailfiler.tvirkler.workers.dev/';
   const CLIENT_ID   = '3eb85312-1c24-4c02-aca9-14cd706709c2';
-  const TENANT_ID   = 'YOUR-TENANT-ID';
+  const TENANT_ID   = '32655b6b-2430-4872-bb66-28dbd84ee0c4';
 
   const msalConfig = {
     auth: {
       clientId: CLIENT_ID,
       authority: `https://login.microsoftonline.com/${TENANT_ID}`,
-      redirectUri: 'https://email-filer.pages.dev/taskpane.html',
+      redirectUri: 'https://email-filer.pages.dev/redirect.html',
     },
     cache: { cacheLocation: 'sessionStorage' }
   };
