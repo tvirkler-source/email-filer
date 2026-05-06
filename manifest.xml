@@ -87,11 +87,11 @@
         <bt:Url id="Taskpane.Url" DefaultValue="https://email-filer.pages.dev/taskpane.html"/>
       </bt:Urls>
       <bt:ShortStrings>
-        <bt:String id="GroupLabel" DefaultValue="Project Filing"/>
+        <bt:String id="GroupLabel" DefaultValue="File Email"/>
         <bt:String id="SaveBtn.Label" DefaultValue="Save to Project"/>
       </bt:ShortStrings>
       <bt:LongStrings>
-        <bt:String id="SaveBtn.Tooltip" DefaultValue="File this email into a SharePoint project folder"/>
+        <bt:String id="SaveBtn.Tooltip" DefaultValue="File this email into a SharePoint project folder. Email will be saved in correspondance folder."/>
       </bt:LongStrings>
     </Resources>
 
