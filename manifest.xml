@@ -3,11 +3,12 @@
   xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
+  xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.0"
   xsi:type="MailApp">
 
   <Id>4e50f933-97df-471f-bbdb-6aecb0aa9588</Id>
-  <Version>1.0.0.1</Version>
-  <ProviderName>Geotron</ProviderName>
+  <Version>1.0.0.0</Version>
+  <ProviderName>Your Organisation</ProviderName>
   <DefaultLocale>en-AU</DefaultLocale>
   <DisplayName DefaultValue="Email Filer"/>
   <Description DefaultValue="Save emails to SharePoint project folders"/>
@@ -87,13 +88,22 @@
         <bt:Url id="Taskpane.Url" DefaultValue="https://email-filer.pages.dev/taskpane.html"/>
       </bt:Urls>
       <bt:ShortStrings>
-        <bt:String id="GroupLabel" DefaultValue="Project Filing"/>
+        <bt:String id="GroupLabel" DefaultValue="Save to Project"/>
         <bt:String id="SaveBtn.Label" DefaultValue="Save to Project"/>
       </bt:ShortStrings>
       <bt:LongStrings>
         <bt:String id="SaveBtn.Tooltip" DefaultValue="File this email into a SharePoint project folder"/>
       </bt:LongStrings>
     </Resources>
-
+    <WebApplicationInfo>
+      <Id>YOUR-CLIENT-ID</Id>
+      <Resource>api://email-filer.pages.dev/3eb85312-1c24-4c02-aca9-14cd706709c2</Resource>
+      <Scopes>
+        <Scope>openid</Scope>
+        <Scope>profile</Scope>
+        <Scope>Files.ReadWrite.All</Scope>
+        <Scope>Sites.Read.All</Scope>
+      </Scopes>
+    </WebApplicationInfo>
   </VersionOverrides>
 </OfficeApp>
