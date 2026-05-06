@@ -7,8 +7,8 @@
   xsi:type="MailApp">
 
   <Id>4e50f933-97df-471f-bbdb-6aecb0aa9588</Id>
-  <Version>1.0.0.0</Version>
-  <ProviderName>Your Organisation</ProviderName>
+  <Version>1.0.0.2</Version>
+  <ProviderName>Geotron</ProviderName>
   <DefaultLocale>en-AU</DefaultLocale>
   <DisplayName DefaultValue="Email Filer"/>
   <Description DefaultValue="Save emails to SharePoint project folders"/>
@@ -95,15 +95,56 @@
         <bt:String id="SaveBtn.Tooltip" DefaultValue="File this email into a SharePoint project folder"/>
       </bt:LongStrings>
     </Resources>
-    <WebApplicationInfo>
-      <Id>YOUR-CLIENT-ID</Id>
-      <Resource>api://email-filer.pages.dev/3eb85312-1c24-4c02-aca9-14cd706709c2</Resource>
-      <Scopes>
-        <Scope>openid</Scope>
-        <Scope>profile</Scope>
-        <Scope>Files.ReadWrite.All</Scope>
-        <Scope>Sites.Read.All</Scope>
-      </Scopes>
-    </WebApplicationInfo>
+
+    <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides/1.1" xsi:type="VersionOverridesV1_1">
+      <Requirements>
+        <bt:Sets DefaultMinVersion="1.3">
+          <bt:Set Name="Mailbox"/>
+        </bt:Sets>
+      </Requirements>
+
+      <Hosts>
+        <Host xsi:type="MailHost">
+          <DesktopFormFactor>
+            <FunctionFile resid="Commands.Url"/>
+            <ExtensionPoint xsi:type="MessageReadCommandSurface">
+              <OfficeTab id="TabDefault">
+                <Group id="msgReadGroup">
+                  <Label resid="GroupLabel"/>
+                  <Control xsi:type="Button" id="SaveToProjectBtn">
+                    <Label resid="SaveBtn.Label"/>
+                    <Supertip>
+                      <Title resid="SaveBtn.Label"/>
+                      <Description resid="SaveBtn.Tooltip"/>
+                    </Supertip>
+                    <Icon>
+                      <bt:Image size="16" resid="Icon.16x16"/>
+                      <bt:Image size="32" resid="Icon.32x32"/>
+                      <bt:Image size="80" resid="Icon.80x80"/>
+                    </Icon>
+                    <Action xsi:type="ShowTaskpane">
+                      <SourceLocation resid="Taskpane.Url"/>
+                    </Action>
+                  </Control>
+                </Group>
+              </OfficeTab>
+            </ExtensionPoint>
+          </DesktopFormFactor>
+        </Host>
+      </Hosts>
+
+      <WebApplicationInfo>
+        <Id>3eb85312-1c24-4c02-aca9-14cd706709c2</Id>
+        <Resource>api://email-filer.pages.dev/3eb85312-1c24-4c02-aca9-14cd706709c2</Resource>
+        <Scopes>
+          <Scope>openid</Scope>
+          <Scope>profile</Scope>
+          <Scope>Files.ReadWrite.All</Scope>
+          <Scope>Sites.Read.All</Scope>
+        </Scopes>
+      </WebApplicationInfo>
+
+    </VersionOverrides>
+
   </VersionOverrides>
 </OfficeApp>
